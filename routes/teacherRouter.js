@@ -1,7 +1,8 @@
 const Router = require('express')
 const router = new Router()
-const teacerController = require('../controlers/teacerController')
-router.post('/registration')
-router.get('/id')
+const teacherController = require('../controlers/teacherController')
+router.post('/registration',teacherController.registration)
+router.post('/login',teacherController.login)
+router.get('/auth',teacherController.check)
 
 module.exports = router

@@ -44,40 +44,47 @@ const Timetable = sequelize.define('timetable', {
 
 })
 
-Teacher.hasMany(Student);
-Student.belongsTo(Teacher);
+
+const TeacherStudent = sequelize.define('teacher_student', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+
+})
+
+const StudentLesson = sequelize.define('student_lesson', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+
+})
+
+
+
+
+
+
+
+Teacher.hasMany(TeacherStudent);
+TeacherStudent.belongsTo(Teacher);
+
+Student.hasMany(TeacherStudent)
+TeacherStudent.belongsTo(Student)
+
+Student.hasMany(StudentLesson)
+StudentLesson.belongsTo(Student)
+
+Lesson.hasMany(StudentLesson)
+StudentLesson.belongsTo(Lesson)
 
 Teacher.hasMany(Lesson);
 Lesson.belongsTo(Teacher);
-
-
-Lesson.hasMany(Student);
-Student.belongsTo(Timetable);
-
-Lesson.hasOne(Teacher);
-Teacher.belongsTo(Timetable);
-
-Student.hasMany(Lesson);
-Lesson.belongsTo(Student);
 
 Student.hasOne(Parent);
 Parent.belongsTo(Student);
 
 
-Timetable.hasMany(Lesson);
-Lesson.belongsTo(Timetable);
+Timetable.hasMany(Lesson)
+Lesson.belongsTo(Timetable)
 
-Timetable.hasMany(Lesson);
-Lesson.belongsTo(Timetable);
 
-Moderator.hasMany(Student);
-Student.belongsTo(Moderator);
 
-Moderator.hasMany(Parent);
-Parent.belongsTo(Moderator);
-
-Moderator.hasMany(Teacher);
-Teacher.belongsTo(Moderator);
 
 
 module.exports = {
