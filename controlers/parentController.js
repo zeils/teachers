@@ -47,4 +47,4 @@ class ParentController {
     }
 }
 
-module.exports = new LessonController()
+module.exports = new ParentController()
