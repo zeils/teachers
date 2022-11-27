@@ -65,12 +65,10 @@ const TeacherLesson = sequelize.define('teacher_lesson', {
 
 
 
-Teacher.hasMany(TeacherStudent);
-TeacherStudent.belongsTo(Teacher);
 
 
-Student.hasMany(TeacherStudent)
-TeacherStudent.belongsTo(Student)
+
+
 
 
 
