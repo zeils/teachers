@@ -56,7 +56,7 @@ class ParentController {
         return res.json({token})
     }
 
-    async Child(req, res, next) {
+    async child(req, res, next) {
         try {
             const {id} = req.params
             const student = await Student.findOne(

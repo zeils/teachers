@@ -54,7 +54,6 @@ class LessonController{
  
     }
 
-
     async getOne(req,res){
         try {
             

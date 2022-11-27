@@ -1,7 +1,8 @@
 const Router = require('express')
 const router = new Router()
 const lessonController = require('../controlers/lessonController')
-router.post('/registration')
-router.get('/id')
-router.get('/auth',(req,res)=>{res.json({message:'all'})})
+router.get('/all', lessonController.getAll)
+router.get('/', lessonController.getOne)
+router.post('/', lessonController.create)
+router.post('/remove', lessonController.delete)
 module.exports = router
