@@ -30,7 +30,7 @@ class TimeTableController{
         try {
             
             let {id} = req.body
-        await Lesson.destroy({
+        const lessonId = await Lesson.destroy({
             where: {
                 id: id
             }
