@@ -6,11 +6,14 @@ class TimeTableController{
 
     async addLesson(req,res,next){
         try {
-            let {lessonId, time} = req.body
+ 
+            let {lessonId, year, month, day, hour, minute} = req.body
+
+            const lessonTime = new Date(year,month,day,hour, minute)
             
 
 
-            const lesson = await Timetable.create({lessonId,time})
+            const lesson = await Timetable.create({lessonId, lessonTime})
 
             
             return res.json(lesson)
@@ -48,6 +51,7 @@ class TimeTableController{
         try {
             
         let timeTable
+
        
 
         timeTable = await Lesson.findAll({
