@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {Parent} = require('../models/models')
+const {Parent, Student} = require('../models/models')
 
 const generateJwt = (id, email) => {
     return jwt.sign(
@@ -56,10 +56,10 @@ class ParentController {
         return res.json({token})
     }
 
-    async student(req, res, next) {
+    async Child(req, res, next) {
         try {
             const {id} = req.params
-            const student = await Parent.findOne(
+            const student = await Student.findOne(
                 {
                     where: {id}
                 }

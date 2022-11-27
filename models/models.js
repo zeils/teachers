@@ -6,7 +6,6 @@ const Teacher = sequelize.define('teacher', {
     email: {type: DataTypes.STRING},
     password: {type: DataTypes.STRING},
     name: {type: DataTypes.STRING, defaultValue: "USER"},
-    file: {type: DataTypes.STRING, defaultValue: "USER"},
 })
 
 const Student = sequelize.define('student', {
@@ -14,8 +13,8 @@ const Student = sequelize.define('student', {
     email: {type: DataTypes.STRING, },
     password: {type: DataTypes.STRING},
     name: {type: DataTypes.STRING, defaultValue: "USER"},
-    class: {type: DataTypes.STRING, defaultValue: "USER"},
     age: {type: DataTypes.STRING, defaultValue: "USER"},
+    parentId: {type: DataTypes.INTEGER}
 })
 
 const Moderator = sequelize.define('moderator', {
@@ -35,23 +34,28 @@ const Parent = sequelize.define('parent', {
 
 const Lesson = sequelize.define('lesson', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    date: {type: DataTypes.DATE,  allowNull: false},
+    name: {type: DataTypes.STRING, defaultValue: "USER"}
 })
 
 const Timetable = sequelize.define('timetable', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING,  allowNull: false},
+    lessonId: {type: DataTypes.INTEGER},
+    date: {type: DataTypes.DATE,  allowNull: false},
 
 })
 
-
-const TeacherStudent = sequelize.define('teacher_student', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-
-})
 
 const StudentLesson = sequelize.define('student_lesson', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    studentId: {type: DataTypes.INTEGER},
+    lessonId: {type: DataTypes.INTEGER}
+
+})
+
+const TeacherLesson = sequelize.define('teacher_lesson', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    teacherId: {type: DataTypes.INTEGER},
+    LessonId: {type: DataTypes.INTEGER}
 
 })
 
@@ -64,8 +68,11 @@ const StudentLesson = sequelize.define('student_lesson', {
 Teacher.hasMany(TeacherStudent);
 TeacherStudent.belongsTo(Teacher);
 
+
 Student.hasMany(TeacherStudent)
 TeacherStudent.belongsTo(Student)
+
+
 
 Student.hasMany(StudentLesson)
 StudentLesson.belongsTo(Student)
@@ -73,8 +80,11 @@ StudentLesson.belongsTo(Student)
 Lesson.hasMany(StudentLesson)
 StudentLesson.belongsTo(Lesson)
 
-Teacher.hasMany(Lesson);
-Lesson.belongsTo(Teacher);
+
+
+Lesson.hasMany(StudentLesson)
+TeacherLesson.belongsTo(Lesson)
+
 
 Student.hasOne(Parent);
 Parent.belongsTo(Student);
@@ -93,5 +103,7 @@ module.exports = {
     Teacher,
     Student,
     Timetable,
-    Lesson
+    Lesson,
+    TeacherLesson,
+    StudentLesson
 }

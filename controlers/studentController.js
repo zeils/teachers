@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {Student} = require('../models/models')
+const {Student, Lesson, StudentLesson} = require('../models/models')
 
 const generateJwt = (id, email) => {
     return jwt.sign(
@@ -58,6 +58,32 @@ class StudentController {
         const token = generateJwt(req.user.id, req.user.email)
         return res.json({token})
     }
+
+
+    async getLessons(req,res){
+        try {
+
+        const {id} = req.body
+            
+        let lessons;
+       
+
+        lessons = await StudentLesson.findAll(
+            {where:{id}}
+        ,)
+
+
+        return res.json(lessons)
+        } catch (e) {
+            console.log('ошибка ' + e)
+
+            next(ApiError.badRequest(e.message))
+            
+        }
+ 
+    }
+
+
 
 
 }
