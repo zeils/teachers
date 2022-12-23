@@ -37,7 +37,7 @@ class ParentController {
 
     async login(req, res, next) {
         try {
-        const {email, password} = req.body
+        const {email, password,name} = req.body
         const user = await Parent.findOne({where: {email}})
         if (!user) {
             return next(ApiError.internal('Пользователь не найден'))
@@ -84,7 +84,7 @@ class ParentController {
     async deleteParent(req, res, next) {
         try {
             const {email} = req.body
-            const user = await Parent.destroy({where: {email}})
+            const user = await Parent.destroy({where: {email , name}})
             
             return res.json({user})
                 

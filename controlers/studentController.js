@@ -2,6 +2,7 @@ const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const {Student, Lesson, StudentLesson} = require('../models/models')
+const {DataTypes} = require("sequelize");
 
 const generateJwt = (id, email) => {
     return jwt.sign(
@@ -14,9 +15,10 @@ const generateJwt = (id, email) => {
 class StudentController {
 
 
+
     async registration(req, res, next) {
         console.log('типа регистрация!')
-        const {email, password} = req.body
+        const {email, password, name, age } = req.body
         if (!email || !password) {
             return next(ApiError.badRequest('Некорректный email или password' + email + ' ' + password))
         }
@@ -27,7 +29,7 @@ class StudentController {
 
         const hashPassword = await bcrypt.hash(password, 5)
 
-        const user = await Student.create({email, password: hashPassword})
+        const user = await Student.create({email, password: hashPassword, name, age, parentId})
 
         const token = generateJwt(user.id, user.email)
 

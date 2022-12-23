@@ -16,7 +16,7 @@ class TeacherController {
 
     async registration(req, res, next) {
         console.log('типа регистрация!')
-        const {email, password} = req.body
+        const {email, password, name} = req.body
         if (!email || !password) {
             return next(ApiError.badRequest('Некорректный email или password' + email + ' ' + password))
         }
@@ -27,7 +27,7 @@ class TeacherController {
 
         const hashPassword = await bcrypt.hash(password, 5)
 
-        const user = await Teacher.create({email, password: hashPassword})
+        const user = await Teacher.create({email, password: hashPassword, name})
 
         const token = generateJwt(user.id, user.email)
 
