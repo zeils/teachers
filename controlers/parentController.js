@@ -16,7 +16,11 @@ class ParentController {
 
     async registration(req, res, next) {
         console.log('типа регистрация!')
-        const {email, password} = req.body
+        const {email, password, name} = req.body
+        console.log('--------------------------------------------------------------------------------')
+        console.log(req.body)
+        console.log('--------------------------------------------------------------------------------')
+        console.log(email)
         if (!email || !password) {
             return next(ApiError.badRequest('Некорректный email или password' + email + ' ' + password))
         }
@@ -26,7 +30,7 @@ class ParentController {
         }
 
         const hashPassword = await bcrypt.hash(password, 5)
-        const user = await Parent.create({email, password: hashPassword})
+        const user = await Parent.create({email, password: hashPassword, name})
         const token = generateJwt(user.id, user.email)
         return res.json(token)
     }

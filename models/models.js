@@ -34,8 +34,7 @@ const Parent = sequelize.define('parent', {
 
 const Lesson = sequelize.define('lesson', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING, defaultValue: "USER"},
-    homework: {type: DataTypes.STRING, defaultValue: "HOMEWORK"}
+    name: {type: DataTypes.STRING, defaultValue: "USER"}
 })
 
 const Timetable = sequelize.define('timetable', {
