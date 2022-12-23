@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {Parent, Student} = require('../models/models')
+const { Teacher, Lesson, TeacherLesson, Timetable, HomeWork, Moderator} = require('../models/models')
 
 const generateJwt = (id, email) => {
     return jwt.sign(
@@ -11,7 +11,7 @@ const generateJwt = (id, email) => {
     )
 }
 
-class ParentController {
+class ModeratorController {
 
 
     async registration(req, res, next) {
@@ -20,21 +20,24 @@ class ParentController {
         if (!email || !password) {
             return next(ApiError.badRequest('Некорректный email или password' + email + ' ' + password))
         }
-        const candidate = await Parent.findOne({where: {email}})
+        const candidate = await Moderator.findOne({where: {email}})
         if (candidate) {
             return next(ApiError.badRequest('Пользователь с таким email уже существует'))
         }
 
         const hashPassword = await bcrypt.hash(password, 5)
-        const user = await Parent.create({email, password: hashPassword})
+
+        const user = await Moderator.create({email, password: hashPassword})
+
         const token = generateJwt(user.id, user.email)
+
         return res.json(token)
     }
 
     async login(req, res, next) {
         try {
         const {email, password} = req.body
-        const user = await Parent.findOne({where: {email}})
+        const user = await Moderator.findOne({where: {email}})
         if (!user) {
             return next(ApiError.internal('Пользователь не найден'))
         }
@@ -56,38 +59,10 @@ class ParentController {
         return res.json({token})
     }
 
-    async child(req, res, next) {
-        try {
-            const {id} = req.params
-            const student = await Student.findOne(
-                {
-                    where: {id}
-                }
-            )
-
-            return res.json({student})
 
 
 
-            
-        } catch (error) {
-            console.log(error)
-            next(ApiError.badRequest(e.message))
-        }
 
-    }
-
-    async deleteParent(req, res, next) {
-        try {
-            const {email} = req.body
-            const user = await Parent.destroy({where: {email}})
-            
-            return res.json({user})
-                
-            } catch (error) {
-                console.log(error)
-            }
-    }
 }
 
-module.exports = new ParentController()
+module.exports = new TeacherController()

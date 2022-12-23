@@ -83,6 +83,18 @@ class StudentController {
  
     }
 
+    async deleteStudent(req, res, next) {
+        try {
+            const {email} = req.body
+            const user = await Student.destroy({where: {email}})
+            
+            return res.json({user})
+                
+            } catch (error) {
+                console.log(error)
+            }
+    }
+
 
 
 

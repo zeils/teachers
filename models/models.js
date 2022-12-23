@@ -34,7 +34,8 @@ const Parent = sequelize.define('parent', {
 
 const Lesson = sequelize.define('lesson', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING, defaultValue: "USER"}
+    name: {type: DataTypes.STRING, defaultValue: "USER"},
+    homework: {type: DataTypes.STRING, defaultValue: "HOMEWORK"}
 })
 
 const Timetable = sequelize.define('timetable', {
@@ -59,6 +60,15 @@ const TeacherLesson = sequelize.define('teacher_lesson', {
 
 })
 
+const HomeWork = sequelize.define('home_work', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, defaultValue: "HOMEWORK"},
+    LessonId: {type: DataTypes.INTEGER}
+
+})
+
+
+
 
 
 
@@ -78,7 +88,8 @@ StudentLesson.belongsTo(Student)
 Lesson.hasMany(StudentLesson)
 StudentLesson.belongsTo(Lesson)
 
-
+Lesson.hasOne(HomeWork)
+HomeWork.belongsTo(Lesson)
 
 Lesson.hasMany(StudentLesson)
 TeacherLesson.belongsTo(Lesson)
@@ -103,5 +114,6 @@ module.exports = {
     Timetable,
     Lesson,
     TeacherLesson,
-    StudentLesson
+    StudentLesson,
+    HomeWork
 }

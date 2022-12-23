@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { Teacher, Lesson, TeacherLesson} = require('../models/models')
+const { Teacher, Lesson, TeacherLesson, Timetable, HomeWork} = require('../models/models')
 
 const generateJwt = (id, email) => {
     return jwt.sign(
@@ -59,6 +59,23 @@ class TeacherController {
         return res.json({token})
     }
 
+    async deleteTeacher(req, res, next) {
+        try {
+            const {email} = req.body
+            const user = await Teacher.destroy({where: {email}})
+            
+            return res.json({user})
+                
+            } catch (error) {
+                console.log(error)
+            }
+    }
+
+
+
+        
+
+
 
     async getLessons(req,res){
         try {
@@ -82,6 +99,81 @@ class TeacherController {
         }
  
     }
+
+    async getTimeTable(req,res){
+        try {
+
+        const {id} = req.body
+            
+        let timetable;
+       
+
+        timetable = await Timetable.findAll(
+            {where:{id}}
+        ,)
+
+
+        return res.json(timetable)
+        } catch (e) {
+            console.log('ошибка ' + e)
+
+            next(ApiError.badRequest(e.message))
+            
+        }
+ 
+    }
+
+    async getHomeWork(req,res){
+        try {
+
+        const {id} = req.body
+            
+        let homeWork ;
+       
+
+        homeWork = await HomeWork.findOne(
+            {where:{id}}
+        ,)
+
+
+        return res.json(homeWork )
+        } catch (e) {
+            console.log('ошибка ' + e)
+
+            next(ApiError.badRequest(e.message))
+            
+        }
+ 
+    }
+    async ChangeHomeWork(req,res){
+        try {
+
+        const {id, homeWork} = req.body
+            
+        let Work;
+       
+
+        Work = HomeWork.update(
+            {   
+                homeWork: {homeWork}
+            },
+            {
+                where:{id}
+
+            })
+
+
+        return res.json(timetable)
+        } catch (e) {
+            console.log('ошибка ' + e)
+
+            next(ApiError.badRequest(e.message))
+            
+        }
+ 
+    }
+
+    
 
 
 }
