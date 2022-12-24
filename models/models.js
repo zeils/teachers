@@ -13,8 +13,7 @@ const Student = sequelize.define('student', {
     email: {type: DataTypes.STRING, },
     password: {type: DataTypes.STRING},
     name: {type: DataTypes.STRING, defaultValue: "USER"},
-    age: {type: DataTypes.STRING, defaultValue: "USER"},
-    parentId: {type: DataTypes.INTEGER}
+    age: {type: DataTypes.STRING, defaultValue: "USER"}
 })
 
 const Moderator = sequelize.define('moderator', {
@@ -39,30 +38,24 @@ const Lesson = sequelize.define('lesson', {
 
 const Timetable = sequelize.define('timetable', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    lessonId: {type: DataTypes.INTEGER},
     date: {type: DataTypes.DATE,  allowNull: false},
 
 })
 
 
 const StudentLesson = sequelize.define('student_lesson', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    studentId: {type: DataTypes.INTEGER},
-    lessonId: {type: DataTypes.INTEGER}
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
 
 })
 
 const TeacherLesson = sequelize.define('teacher_lesson', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    teacherId: {type: DataTypes.INTEGER},
-    LessonId: {type: DataTypes.INTEGER}
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
 
 })
 
 const HomeWork = sequelize.define('home_work', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING, defaultValue: "HOMEWORK"},
-    LessonId: {type: DataTypes.INTEGER}
+    name: {type: DataTypes.STRING, defaultValue: "HOMEWORK"}
 
 })
 
@@ -90,9 +83,6 @@ StudentLesson.belongsTo(Lesson)
 Lesson.hasOne(HomeWork)
 HomeWork.belongsTo(Lesson)
 
-Lesson.hasMany(StudentLesson)
-TeacherLesson.belongsTo(Lesson)
-
 
 Student.hasOne(Parent);
 Parent.belongsTo(Student);
@@ -100,6 +90,12 @@ Parent.belongsTo(Student);
 
 Timetable.hasMany(Lesson)
 Lesson.belongsTo(Timetable)
+
+Teacher.hasMany(TeacherLesson)
+TeacherLesson.belongsTo(Teacher)
+
+Lesson.hasMany(TeacherLesson)
+TeacherLesson.belongsTo(Lesson)
 
 
 

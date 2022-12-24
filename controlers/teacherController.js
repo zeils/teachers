@@ -71,6 +71,23 @@ class TeacherController {
             }
     }
 
+    async allTeachers (req, res, next) { 
+        try {
+            const teachers = await Teacher.findAll(
+                {
+                }
+            )
+
+            return res.json({teachers})
+
+    
+        } catch (error) {
+            console.log(error)
+            next(ApiError.badRequest(e.message))
+        }
+
+    }
+
 
 
         
@@ -100,28 +117,7 @@ class TeacherController {
  
     }
 
-    async getTimeTable(req,res){
-        try {
 
-        const {id} = req.body
-            
-        let timetable;
-       
-
-        timetable = await Timetable.findAll(
-            {where:{id}}
-        ,)
-
-
-        return res.json(timetable)
-        } catch (e) {
-            console.log('ошибка ' + e)
-
-            next(ApiError.badRequest(e.message))
-            
-        }
- 
-    }
 
     async getHomeWork(req,res){
         try {

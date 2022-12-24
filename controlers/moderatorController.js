@@ -59,10 +59,27 @@ class ModeratorController {
         return res.json({token})
     }
 
+    async allModerators (req, res, next) { 
+        try {
+            const moderators = await Moderator.findAll(
+                {
+                }
+            )
+
+            return res.json({moderators})
+
+    
+        } catch (error) {
+            console.log(error)
+            next(ApiError.badRequest(e.message))
+        }
+
+    }
+
 
 
 
 
 }
 
-module.exports = new TeacherController()
+module.exports = new ModeratorController()

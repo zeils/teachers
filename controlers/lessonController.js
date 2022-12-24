@@ -6,20 +6,19 @@ class LessonController{
 
     async create(req,res,next){
         try {
-            let {name, teacherId, studentsId} = req.body
+            let {name} = req.body
             
 
 
             const lesson = await Lesson.create({name})
-            console.log(lesson.id)
-            const lessonId = lesson.id
+            //const lessonId = lesson.id
 
-            const teacherLesson = await TeacherLesson.create({teacherId, lessonId})
+            //const teacherLesson = await TeacherLesson.create({teacherId, lessonId})
 
 
-            for (var id in studentsId) {
-                const studentLesson = await StudentLesson.create({id, lessonId})
-            }
+            //for (var id in studentsId) {
+            //    const studentLesson = await StudentLesson.create({id, lessonId})
+            //}
 
             
             return res.json(lesson)
@@ -37,10 +36,6 @@ class LessonController{
        
 
         lessons = await Lesson.findAll({
-            include: [{
-                model: TeacherLesson, as: 'teacherId', 
-                model: StudentLesson, as:'studentId'
-            }]
         },)
 
 
@@ -59,14 +54,10 @@ class LessonController{
             
         
 
-        const {id} = req.params
+        const {id} = req.body
         const dbLesson = await Lesson.findOne(
             {
-                where: {id},
-                include: [{
-                    model: TeacherLesson, as: 'teacherId', 
-                    model: StudentLesson, as:'studentId'
-                }]
+                where: {id}
             },
         )
 
@@ -84,14 +75,46 @@ class LessonController{
     async delete(req,res){
         try {
             
-        const lessonId= parseInt(Object.values(req.body)[0]) 
+        const {id} = req.body 
         await Lesson.destroy({
             where: {
-                id: lessonId
+                id: {id}
             }
         })
 
-        return res.json(lessonId)
+        return res.json({id})
+        } catch (e) {
+            console.log('ошибка ' + e)
+
+            next(ApiError.badRequest(e.message))
+            
+        }
+
+    }
+
+    async enrollTeacher(req,res){
+        try {
+            
+        const {teacherId, lessonId} = req.body 
+        const teacherLesson = await Lesson.create({teacherId, lessonId})
+
+        return res.json({teacherLesson})
+        } catch (e) {
+            console.log('ошибка ' + e)
+
+            next(ApiError.badRequest(e.message))
+            
+        }
+
+    }
+
+    async enrollStudent(req,res){
+        try {
+            
+        const {studentId, lessonId} = req.body 
+        const studentLesson = await Lesson.create({studentId, lessonId})
+
+        return res.json({studentLesson})
         } catch (e) {
             console.log('ошибка ' + e)
 

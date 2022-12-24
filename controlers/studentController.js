@@ -61,30 +61,6 @@ class StudentController {
         return res.json({token})
     }
 
-
-    async getLessons(req,res){
-        try {
-
-        const {id} = req.body
-            
-        let lessons;
-       
-
-        lessons = await StudentLesson.findAll(
-            {where:{id}}
-        ,)
-
-
-        return res.json(lessons)
-        } catch (e) {
-            console.log('ошибка ' + e)
-
-            next(ApiError.badRequest(e.message))
-            
-        }
- 
-    }
-
     async deleteStudent(req, res, next) {
         try {
             const {email} = req.body
@@ -95,6 +71,61 @@ class StudentController {
             } catch (error) {
                 console.log(error)
             }
+    }
+
+    async oneChild(req, res, next) { // взять ребенка по id
+        try {
+            const {id} = req.body
+            const student = await Student.findOne(
+                {
+                    where: {id}
+                }
+            )
+
+            return res.json({student})
+
+    
+        } catch (error) {
+            console.log(error)
+            next(ApiError.badRequest(e.message))
+        }
+
+    }
+
+    async parentChilds(req, res, next) { // взять всех детей по id выбранного родителя
+        try {
+            const {studentId} = req.body
+            const students = await Student.findAll(
+                {
+                    where: {studentId}
+                }
+            )
+
+            return res.json({students})
+
+    
+        } catch (error) {
+            console.log(error)
+            next(ApiError.badRequest(e.message))
+        }
+
+    }
+
+    async allChilds (req, res, next) { // взять всех детей 
+        try {
+            const students = await Student.findAll(
+                {
+                }
+            )
+
+            return res.json({students})
+
+    
+        } catch (error) {
+            console.log(error)
+            next(ApiError.badRequest(e.message))
+        }
+
     }
 
 

@@ -4,7 +4,8 @@ const ParentController = require('../controlers/parentController')
 router.post('/registration', ParentController.registration)
 router.post('/login', ParentController.login)
 router.get('/auth', ParentController.check)
-router.get('/student', ParentController.child)
+router.delete('/', ParentController.deleteParent)
+router.get('/all', ParentController.allParents)
 
 
 module.exports = router

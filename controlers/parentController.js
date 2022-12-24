@@ -15,12 +15,7 @@ class ParentController {
 
 
     async registration(req, res, next) {
-        console.log('типа регистрация!')
         const {email, password, name} = req.body
-        console.log('--------------------------------------------------------------------------------')
-        console.log(req.body)
-        console.log('--------------------------------------------------------------------------------')
-        console.log(email)
         if (!email || !password) {
             return next(ApiError.badRequest('Некорректный email или password' + email + ' ' + password))
         }
@@ -60,26 +55,7 @@ class ParentController {
         return res.json({token})
     }
 
-    async child(req, res, next) {
-        try {
-            const {id} = req.params
-            const student = await Student.findOne(
-                {
-                    where: {id}
-                }
-            )
 
-            return res.json({student})
-
-
-
-            
-        } catch (error) {
-            console.log(error)
-            next(ApiError.badRequest(e.message))
-        }
-
-    }
 
     async deleteParent(req, res, next) {
         try {
@@ -91,6 +67,23 @@ class ParentController {
             } catch (error) {
                 console.log(error)
             }
+    }
+
+    async allParents (req, res, next) { 
+        try {
+            const parents = await Parent.findAll(
+                {
+                }
+            )
+
+            return res.json({parents})
+
+    
+        } catch (error) {
+            console.log(error)
+            next(ApiError.badRequest(e.message))
+        }
+
     }
 }
 
