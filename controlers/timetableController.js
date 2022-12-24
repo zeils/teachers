@@ -7,16 +7,13 @@ class TimeTableController{
     async addLesson(req,res,next){
         try {
  
-            let {lessonId, year, month, day, hour, minute} = req.body
-
-            const lessonTime = new Date(year,month,day,hour, minute)
+            let {date} = req.body
             
 
-
-            const lesson = await Timetable.create({lessonId, lessonTime})
+            const timeTable = await Timetable.create({date})
 
             
-            return res.json(lesson)
+            return res.json(timeTable)
         } catch(e){
             console.log('ошибка ' + e)
 

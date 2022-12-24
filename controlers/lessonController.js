@@ -6,20 +6,11 @@ class LessonController{
 
     async create(req,res,next){
         try {
-            let {name} = req.body
+            let {name, timetableId} = req.body
             
 
 
-            const lesson = await Lesson.create({name})
-            //const lessonId = lesson.id
-
-            //const teacherLesson = await TeacherLesson.create({teacherId, lessonId})
-
-
-            //for (var id in studentsId) {
-            //    const studentLesson = await StudentLesson.create({id, lessonId})
-            //}
-
+            const lesson = await Lesson.create({name,timetableId})
             
             return res.json(lesson)
         } catch(e){
@@ -62,6 +53,27 @@ class LessonController{
         )
 
         return res.json({dbLesson})
+        }
+            catch (e) {
+                console.log('ошибка ' + e)
+
+            next(ApiError.badRequest(e.message))
+            
+        }
+        
+    }
+
+    async getTimeId(req,res){
+        try {
+            
+        const {timetableId} = req.body
+        const lessonTime = await Lesson.findOne(
+            {
+                where: {timetableId}
+            },
+        )
+
+        return res.json({lessonTime})
         }
             catch (e) {
                 console.log('ошибка ' + e)
@@ -123,6 +135,39 @@ class LessonController{
         }
 
     }
+
+    async getEnrollTeacher(req,res){
+        try {
+            
+        const {teacherId} = req.body 
+        const lessons = await Lesson.findAll({where:{teacherId}})
+
+        return res.json({lessons})
+        } catch (e) {
+            console.log('ошибка ' + e)
+
+            next(ApiError.badRequest(e.message))
+            
+        }
+
+    }
+
+    async getEnrollStudent(req,res){
+        try {
+            
+        const {studentId} = req.body 
+        const lessons = await Lesson.findAll({where:{studentId}})
+
+        return res.json({lessons})
+        } catch (e) {
+            console.log('ошибка ' + e)
+
+            next(ApiError.badRequest(e.message))
+            
+        }
+
+    }
+
 
 
     
