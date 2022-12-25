@@ -5,7 +5,7 @@ router.post('/registration', ParentController.registration)
 router.post('/login', ParentController.login)
 router.get('/auth', ParentController.check)
 router.delete('/', ParentController.deleteParent)
-router.get('/all', ParentController.allParents)
+router.get('/all', ParentController.allParents) // взять всех родителей
 
 
 module.exports = router
