@@ -117,7 +117,26 @@ class TeacherController {
  
     }
 
+    async createHomeWork(req,res){
+        try {
 
+        const {name, lessonId} = req.body
+            
+        let homeWork ;
+       
+
+        homeWork = await HomeWork.create({name, lessonId})
+
+
+        return res.json(homeWork )
+        } catch (e) {
+            console.log('ошибка ' + e)
+
+            next(ApiError.badRequest(e.message))
+            
+        }
+ 
+    }
 
     async getHomeWork(req,res){
         try {

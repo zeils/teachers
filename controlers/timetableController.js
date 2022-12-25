@@ -51,14 +51,12 @@ class TimeTableController{
 
        
 
-        timeTable = await Lesson.findAll({
-            include: [{
-                model: Timetable, as: 'time', 
-            }]
+        timeTable = await Timetable.findAll({
+        
         },)
 
 
-        return res.json(lessons)
+        return res.json(timeTable)
         } catch (e) {
             console.log('ошибка ' + e)
 

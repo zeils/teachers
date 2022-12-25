@@ -84,8 +84,8 @@ Lesson.hasOne(HomeWork)
 HomeWork.belongsTo(Lesson)
 
 
-Student.hasOne(Parent);
-Parent.belongsTo(Student);
+Parent.hasMany(Student)
+Student.belongsTo(Parent)
 
 
 Timetable.hasMany(Lesson)
