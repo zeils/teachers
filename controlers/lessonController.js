@@ -108,7 +108,7 @@ class LessonController{
         try {
             
         const {teacherId, lessonId} = req.body 
-        const teacherLesson = await Lesson.create({teacherId, lessonId})
+        const teacherLesson = await TeacherLesson.create({teacherId, lessonId})
 
         return res.json({teacherLesson})
         } catch (e) {
@@ -124,7 +124,7 @@ class LessonController{
         try {
             
         const {studentId, lessonId} = req.body 
-        const studentLesson = await Lesson.create({studentId, lessonId})
+        const studentLesson = await StudentLesson.create({studentId, lessonId})
 
         return res.json({studentLesson})
         } catch (e) {
@@ -140,7 +140,7 @@ class LessonController{
         try {
             
         const {teacherId} = req.body 
-        const lessons = await Lesson.findAll({where:{teacherId}})
+        const lessons = await TeacherLesson.findAll({where:{teacherId}})
 
         return res.json({lessons})
         } catch (e) {
@@ -156,7 +156,7 @@ class LessonController{
         try {
             
         const {studentId} = req.body 
-        const lessons = await Lesson.findAll({where:{studentId}})
+        const lessons = await StudentLesson.findAll({where:{studentId}})
 
         return res.json({lessons})
         } catch (e) {

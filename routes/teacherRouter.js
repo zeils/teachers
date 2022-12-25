@@ -6,7 +6,7 @@ router.post('/login',teacherController.login)
 router.get('/auth',teacherController.check)
 router.get('/all', teacherController.allTeachers) //
 router.get('/homework', teacherController.getHomeWork) // Взять дз по id
-router.post('/homework', teacherController.ChangeHomeWork) // поменять дз по id
+router.post('/homework', teacherController.createHomeWork) // Создать ДЗ
 
 
 module.exports = router

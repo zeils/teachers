@@ -18,7 +18,7 @@ class StudentController {
 
     async registration(req, res, next) {
         console.log('типа регистрация!')
-        const {email, password, name, age } = req.body
+        const {email, password, name, age, parentId } = req.body
         if (!email || !password) {
             return next(ApiError.badRequest('Некорректный email или password' + email + ' ' + password))
         }
@@ -94,10 +94,10 @@ class StudentController {
 
     async parentChilds(req, res, next) { // взять всех детей по id выбранного родителя
         try {
-            const {studentId} = req.body
+            const {parentId} = req.body
             const students = await Student.findAll(
                 {
-                    where: {studentId}
+                    where: {parentId}
                 }
             )
 
